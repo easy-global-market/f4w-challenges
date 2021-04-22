@@ -1,0 +1,17 @@
+mongo:
+  image: mongo:3.6
+  command: --nojournal
+
+orion:
+  image: fiware/orion-ld
+  links:
+    - mongo
+  ports:
+    - "1026:1026"
+  command: -dbhost mongo
+
+bentoml_ngsild_proxy:
+  container_name: bentoml_ngsild_proxy
+  image: easyglobalmarket/bentoml_ngsild_proxy
+  ports:
+    - 5000:5000
