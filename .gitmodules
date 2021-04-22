@@ -1,3 +1,14 @@
 [submodule "f4w-challenges-sww"]
 	path = f4w-challenges-sww
 	url = https://github.com/easy-global-market/f4w-challenges-sww
+[submodule "fiware-mlaas-poc"]
+	path = fiware-mlaas-poc
+	url = https://github.com/easy-global-market/fiware-mlaas-poc
+[submodule "f4w-challenge-sofia"]
+	path = f4w-challenge-sofia
+	url = https://github.com/flopezag/f4w-challenge-sofia
+	branch = python
+[submodule "f4w-challenge-milan"]
+	path = f4w-challenge-milan
+	url = https://github.com/flopezag/f4w-challenge-milan
+        branch = python
