@@ -5,7 +5,7 @@
 In this repository, you'll find:
 
 - One folder per challenge containing scripts in order to inject test data into a context broker
-- A [fiware-mlaas-poc](fiware-mlaas-poc) folder containing a BentoML proxy application between a context broker and a ML model deployed in a BentoML container
+- A [fiware-mlaas-poc](fiware-mlaas-poc) folder containing a BentoML proxy application between a context broker and a ML model deployed in a BentoML container. It also contains some useful scripts to interact with a context broker.
 - Two docker-compose files containing the necessary runtime components (a context broker and the BentoML proxy application) to have a FIWARE instance. One flavor (`docker-compose.orionld.yml`) is using Orion-LD context broker, the other one (`docker-compose.stellio.yml`) is using Stellio context broker.
 
 ## Scenario for the F4W challenges
