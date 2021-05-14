@@ -1,17 +1,95 @@
-mongo:
-  image: mongo:3.6
-  command: --nojournal
+version: "3.5"
+services:
+  # Orion is the context broker
+  orion:
+    image: fiware/orion-ld:latest
+    hostname: orion
+    container_name: fiware-orion
+    # sometimes the initial startup fails due to a weird timescale behaviour
+    restart: always
+    environment:
+      - ORIONLD_TROE=${ORIONLD_TROE}
+      - ORIONLD_TROE_USER=${ORIONLD_TROE_USER}
+      - ORIONLD_TROE_PWD=${ORIONLD_TROE_PWD}
+      - ORIONLD_TROE_HOST=timescale
+      - ORIONLD_MONGO_HOST=mongo-db
+    depends_on:
+      - mongo-db
+      - timescale
+    networks:
+      - default
+    ports:
+      - "${ORIONLD_PORT}:${ORIONLD_PORT}" # localhost:1026
+    command: -logLevel DEBUG
+    healthcheck:
+      test: curl --fail -s http://orion:${ORIONLD_PORT}/version || exit 1
+      interval: 5s
 
-orion:
-  image: fiware/orion-ld
-  links:
-    - mongo
-  ports:
-    - "1026:1026"
-  command: -dbhost mongo
+  mintaka:
+    image: fiware/mintaka:latest
+    hostname: mintaka
+    container_name: mintaka
+    environment:
+      - DATASOURCES_DEFAULT_HOST=timescale
+      - DATASOURCES_DEFAULT_USERNAME=${DATASOURCES_DEFAULT_USERNAME}
+      - DATASOURCES_DEFAULT_PASSWORD=${DATASOURCES_DEFAULT_PASSWORD}
+      - DATASOURCES_DEFAULT_DATABSE=${DATASOURCES_DEFAULT_DATABSE}
+    expose:
+      - "8080"
+    ports:
+      - "${MINTAKA_PORT}:${MINTAKA_PORT}"
+    networks:
+      - default
 
-bentoml_ngsild_proxy:
-  container_name: bentoml_ngsild_proxy
-  image: easyglobalmarket/bentoml_ngsild_proxy
-  ports:
-    - 5000:5000
+  bentoml_ngsild_proxy:
+    container_name: bentoml_ngsild_proxy
+    image: easyglobalmarket/bentoml_ngsild_proxy
+    ports:
+      - ${BENTOML_PROXY_PORT}:${BENTOML_PROXY_PORT}
+
+  # Databases
+  mongo-db:
+    image: mongo:4.0
+    hostname: mongo-db
+    container_name: db-mongo
+    expose:
+      - ${MONGO_DB_PORT}
+    ports:
+      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}" # localhost:27017
+    networks:
+      - default
+    command: --nojournal
+    volumes:
+      - mongo-db:/data
+    healthcheck:
+      test: |
+        host=`hostname --ip-address || echo '127.0.0.1'`;
+        mongo --quiet $host/test --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)' && echo 0 || echo 1
+      interval: 5s
+
+  timescale:
+    image: timescale/timescaledb-postgis:latest-pg12
+    hostname: timescale
+    container_name: timescale
+    expose:
+      - "${TIMESCALE_PORT}"
+    ports:
+      - "${TIMESCALE_PORT}:${TIMESCALE_PORT}"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_HOST_AUTH_METHOD=${POSTGRES_HOST_AUTH_METHOD}
+    volumes:
+      - timescale-db:/var/lib/postgresql/data
+    networks:
+      - default
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U orion" ]
+      interval: 15s
+      timeout: 15s
+      retries: 5
+      start_period: 60s
+
+volumes:
+  mongo-db: ~
+  timescale-db: ~
