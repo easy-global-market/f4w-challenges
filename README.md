@@ -5,7 +5,7 @@
 In this repository, you'll find:
 
 - One folder per challenge containing scripts in order to inject test data into a context broker
-- A [fiware-mlaas-poc](fiware-mlaas-poc) folder containing a BentoML proxy application between a context broker and a ML model deployed in a BentoML container. It also contains some useful scripts to interact with a context broker.
+- A `fiware-mlaas-poc` folder containing a BentoML proxy application between a context broker and a ML model deployed in a BentoML container. It also contains some useful scripts to interact with a context broker.
 - Two docker-compose files containing the necessary runtime components (a context broker and the BentoML proxy application) to have a FIWARE instance. One flavor (`docker-compose.orionld.yml`) is using Orion-LD context broker, the other one (`docker-compose.stellio.yml`) is using Stellio context broker.
 
 ## Scenario for the F4W challenges
@@ -20,7 +20,7 @@ The scripts to inject the test data for each challenge is in one the following s
 
 A JSON-LD context to be used along your requests to the NGSI-LD API exposed by the context brokers is available at: https://raw.githubusercontent.com/easy-global-market/ngsild-api-data-models/master/mlaas/jsonld-contexts/mlaas-ngsild-compound.jsonld
 
-In the [fiware-mlaas-poc](fiware-mlaas-poc) folder, you will also find some Python scripts to help you interacting with a context broker (more details in the README file of the subproject):
+In the `fiware-mlaas-poc` folder, you will also find some Python scripts to help you interacting with a context broker (more details in the README file of the subproject):
 
 - Create a MLModel entity
 - Get a list of MLModel entities
