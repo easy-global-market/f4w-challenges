@@ -4,6 +4,7 @@
 [submodule "fiware-mlaas-poc"]
 	path = fiware-mlaas-poc
 	url = https://github.com/easy-global-market/fiware-mlaas-poc
+        branch = feature/f4w-challenges
 [submodule "f4w-challenge-sofia"]
 	path = f4w-challenge-sofia
 	url = https://github.com/flopezag/f4w-challenge-sofia
