@@ -18,7 +18,7 @@ The scripts to inject the test data for each challenge is in one the following s
 - f4w-challenges-sofia
 - f4w-challenges-sww
 
-A JSON-LD context to be used along your requests to the NGSI-LD API exposed by the context brokers is available at: https://raw.githubusercontent.com/easy-global-market/ngsild-api-data-models/feature/mlaas-models/mlaas/jsonld-contexts/mlaas-compound.jsonld
+A JSON-LD context to be used along your requests to the NGSI-LD API exposed by the context brokers is available at: https://raw.githubusercontent.com/easy-global-market/ngsild-api-data-models/master/mlaas/jsonld-contexts/mlaas-ngsild-compound.jsonld
 
 In the [fiware-mlaas-poc](fiware-mlaas-poc) folder, you will also find some Python scripts to help you interacting with a context broker (more details in the README file of the subproject):
 
